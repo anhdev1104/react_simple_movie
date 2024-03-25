@@ -1,5 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+
 const MovieCard = ({ item }) => {
     const { poster_path, original_title, release_date, vote_average } = item;
+    const navigate = useNavigate();
 
     return (
         <div className="movie-card flex flex-col rounded-xl p-3 bg-slate-800 text-white select-none">
@@ -32,7 +35,12 @@ const MovieCard = ({ item }) => {
                         </span>
                     </div>
                 </div>
-                <button className="mt-auto py-3 px-6 rounded-lg capitalize bg-primary w-full">Watch now</button>
+                <button
+                    className="mt-auto py-3 px-6 rounded-lg capitalize bg-primary w-full"
+                    onClick={() => navigate(`/movie/${item.id}`)}
+                >
+                    Watch now
+                </button>
             </div>
         </div>
     );
