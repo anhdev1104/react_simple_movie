@@ -3,22 +3,22 @@
 @tailwind utilities;
 
 @layer base {
-    body {
-        @apply bg-slate-900 font-body px-5;
-    }
+  body {
+    @apply bg-slate-900 font-body px-5 text-white;
+  }
 }
 
 @layer components {
-    .page-container {
-        max-width: 1280px;
-        @apply mx-auto;
-    }
+  .page-container {
+    max-width: 1280px;
+    @apply mx-auto;
+  }
 
-    .movie-list .swiper-slide {
-        width: 300px;
-    }
+  .movie-list .swiper-slide {
+    width: 300px;
+  }
 
-    .banner .swiper {
-        height: 100%;
-    }
+  .banner .swiper {
+    height: 100%;
+  }
 }
