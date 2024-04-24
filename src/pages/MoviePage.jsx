@@ -3,6 +3,8 @@ import MovieCard from '../components/movie/MovieCard';
 import { apiKey, fetcher } from '../config';
 import { useEffect, useState } from 'react';
 import useDebounce from '../hooks/useDebounce';
+import ReactPaginate from 'react-paginate';
+const itemsPerPage = 20;
 
 const MoviePage = () => {
   const [page, setPage] = useState(1);
@@ -13,24 +15,15 @@ const MoviePage = () => {
 
   const loading = !data && !error;
   const movies = data?.results || [];
-  const pageCount = 5;
 
   const handleFilterChange = e => {
     setFilter(e.target.value);
   };
 
-  const handlePrevPage = () => {
-    setPage(prev => {
-      if (prev <= 1) return prev;
-      return prev - 1;
-    });
-  };
+  const pageCount = Math.ceil(data?.total_results / itemsPerPage);
 
-  const handleNextPage = () => {
-    setPage(prev => {
-      if (prev >= 5) return prev;
-      return prev + 1;
-    });
+  const handlePageClick = event => {
+    setPage(event.selected + 1);
   };
 
   useEffect(() => {
@@ -40,7 +33,9 @@ const MoviePage = () => {
       setUrl(`https://api.themoviedb.org/3/movie/popular?page=${page}&api_key=${apiKey}`);
     }
   }, [page, filterDebounce]);
+
   console.log(page);
+
   return (
     <div className="py-10 page-container">
       <div className="flex mb-10">
@@ -75,40 +70,40 @@ const MoviePage = () => {
       <div className="grid grid-cols-4 gap-10">
         {!loading && movies.length > 0 && movies.map(item => <MovieCard key={item.id} item={item} />)}
       </div>
+
       <div className="flex items-center justify-center mt-10 gap-5">
-        <span className="cursor-pointer" onClick={handlePrevPage}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-          </svg>
-        </span>
-        {new Array(pageCount).fill().map((page, index) => (
-          <span
-            className="cursor-pointer inline-block px-4 py-1 bg-white text-primary font-bold rounded"
-            key={index}
-            onClick={() => setPage(index + 1)}
-          >
-            {index + 1}
-          </span>
-        ))}
-        <span className="cursor-pointer" onClick={handleNextPage}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-          </svg>
-        </span>
+        <ReactPaginate
+          breakLabel="..."
+          nextLabel={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+            </svg>
+          }
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel={
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+            </svg>
+          }
+          renderOnZeroPageCount={null}
+          className="pagination"
+        />
       </div>
     </div>
   );
