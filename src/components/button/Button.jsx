@@ -16,7 +16,7 @@ const Button = ({ onClick = () => {}, className, type = 'button', bgColor = 'pri
   return (
     <button
       type={type}
-      className={`mt-auto py-3 px-6 rounded-lg capitalize ${bgClassName} w-full ${className}`}
+      className={`mt-auto py-3 px-6 rounded-lg capitalize ${bgClassName} ${className}`}
       onClick={onClick}
     >
       {children}
