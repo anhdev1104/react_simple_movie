@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import Button from '../button/Button';
+import SkeletonLoading from '../loading/SkeletonLoading';
 
 const MovieCard = ({ item }) => {
   const { id, poster_path, original_title, release_date, vote_average } = item;
@@ -31,6 +32,34 @@ const MovieCard = ({ item }) => {
         <Button onClick={() => navigate(`/movie/${id}`)} bgColor="primary">
           Watch now
         </Button>
+      </div>
+    </div>
+  );
+};
+
+export const MovieCardSkeleton = () => {
+  return (
+    <div className="movie-card flex flex-col rounded-xl p-3 bg-slate-800 text-white select-none">
+      <SkeletonLoading className="w-full h-[250px] object-cover rounded-lg mb-5"></SkeletonLoading>
+      <div className="flex flex-col flex-1">
+        <h3 className="text-xl font-bold mb-3 whitespace-nowrap overflow-hidden overflow-ellipsis">
+          <SkeletonLoading className={`w-full h-5`}></SkeletonLoading>
+        </h3>
+
+        <div className="flex items-center justify-between text-sm opacity-50 mb-10">
+          <span>
+            <SkeletonLoading className={`w-[50px] h-[10px]`}></SkeletonLoading>
+          </span>
+          <div className="flex gap-3 items-center">
+            <span>
+              <SkeletonLoading className={`w-[30px] h-[10px]`}></SkeletonLoading>
+            </span>
+            <span>
+              <SkeletonLoading className={`w-[10px] h-[10px]`}></SkeletonLoading>
+            </span>
+          </div>
+        </div>
+        <SkeletonLoading className={`w-full h-[45px] rounded-lg`}></SkeletonLoading>
       </div>
     </div>
   );
